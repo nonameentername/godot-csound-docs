@@ -1,0 +1,6 @@
+[submodule "modules/godot-docs"]
+	path = modules/godot-docs
+	url = https://github.com/godotengine/godot-docs.git
+[submodule "modules/godot-csound"]
+	path = modules/godot-csound
+	url = https://github.com/nonameentername/godot-csound.git
