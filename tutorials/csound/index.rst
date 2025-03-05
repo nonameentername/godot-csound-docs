@@ -11,3 +11,4 @@ Csound
 
    setup_csound
    csound_instances
+   csound_audio_streams
