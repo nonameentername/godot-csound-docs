@@ -71,9 +71,9 @@ Programming languages
 
 Let's talk about the available programming languages.
 
-You can code your games using :ref:`GDScript <toc-learn-scripting-gdscript>`, a
+You can code your games using :ref:`GDScript <doc_gdscript>`, a
 Godot-specific and tightly integrated language with a lightweight syntax, or
-:ref:`C# <toc-learn-scripting-C#>`, which is popular in the games industry.
+:ref:`C# <doc_c_sharp>`, which is popular in the games industry.
 These are the two main scripting languages we support.
 
 With the GDExtension technology, you can also write
@@ -84,7 +84,7 @@ Software Development Kits (SDK) in the engine.
 Of course, you can also directly add modules and features to the engine, as it's
 completely free and open source.
 
-.. doc_learning_programming
+.. _doc_introduction_learning_programming:
 
 What do I need to know to use Godot?
 ------------------------------------

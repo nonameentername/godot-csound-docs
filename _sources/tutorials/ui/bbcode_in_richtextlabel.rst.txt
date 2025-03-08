@@ -21,8 +21,11 @@ scrollbar is automatically displayed if the text does not fit within the
 control's size. The scrollbar can be disabled by unchecking the
 **Scroll Active** property in the RichTextLabel inspector.
 
-Note that the BBCode tags can also be used to some extent in the XML source of
-the class reference. For more information, see :ref:`doc_class_reference_primer`.
+Note that the BBCode tags can also be used to some extent for other use cases:
+
+- BBCode can be used to :ref:`format comments in the XML source of the class reference <doc_class_reference_bbcode>`.
+- BBCode can be used in :ref:`GDScript documentation comments <doc_gdscript_documentation_comments_bbcode_and_class_reference>`.
+- BBCode can be used when :ref:`printing rich text to the Output bottom panel <doc_output_panel_printing_rich_text>`.
 
 .. seealso::
 
@@ -352,6 +355,7 @@ Reference
       | A `drop cap <https://www.computerhope.com/jargon/d/dropcap.htm>`__ is typically one
         uppercase character, but ``[dropcap]`` supports containing multiple characters.
         ``margins`` values are comma-separated and can be positive, zero or negative.
+        Values must **not** be separated by spaces; otherwise, the values won't be parsed correctly.
         Negative top and bottom margins are particularly useful to allow the rest of
         the paragraph to display below the dropcap.
 
@@ -359,7 +363,8 @@ Reference
 
   * - | **opentype_features**
       | Enables custom OpenType font features for ``{text}``. Features must be provided as
-        a comma-separated ``{list}``.
+        a comma-separated ``{list}``. Values must **not** be separated by spaces;
+        otherwise, the list won't be parsed correctly.
 
     - | ``[opentype_features={list}]``
       | ``{text}``
@@ -505,7 +510,7 @@ Paragraph options
 - **justification_flags**, **jst**
 
   +-----------+--------------------------------------------------------------------------------------------------------+
-  | `Values`  | Comma-separated list of the following values:                                                          |
+  | `Values`  | Comma-separated list of the following values (no space after each comma):                              |
   |           | ``kashida`` (or ``k``), ``word`` (or ``w``), ``trim`` (or ``tr``), ``after_last_tab`` (or ``lt``),     |
   |           | ``skip_last`` (or ``sl``), ``skip_last_with_chars`` (or ``sv``),  ``do_not_skip_single`` (or ``ns``).  |
   +-----------+--------------------------------------------------------------------------------------------------------+
@@ -566,7 +571,7 @@ clicked URLs using the user's default web browser::
     # the function below using the signal connection dialog.
     func _richtextlabel_on_meta_clicked(meta):
         # `meta` is not guaranteed to be a String, so convert it to a String
-        # to avoid script errors at run-time.
+        # to avoid script errors at runtime.
         OS.shell_open(str(meta))
 
 For more advanced use cases, it's also possible to store JSON in an ``[url]``
@@ -777,11 +782,11 @@ Font options
 
 - **opentype_variation**, **otv**
 
-  +-----------+------------------------------------------------------+
-  | `Values`  | Comma-separated list of the OpenType variation tags. |
-  +-----------+------------------------------------------------------+
-  | `Default` |                                                      |
-  +-----------+------------------------------------------------------+
+  +-----------+----------------------------------------------------------------------------------+
+  | `Values`  | Comma-separated list of the OpenType variation tags (no space after each comma). |
+  +-----------+----------------------------------------------------------------------------------+
+  | `Default` |                                                                                  |
+  +-----------+----------------------------------------------------------------------------------+
 
   Font OpenType variation coordinates. See `OpenType variation tags <https://docs.microsoft.com/en-us/typography/opentype/spec/dvaraxisreg>`__.
 
@@ -793,11 +798,11 @@ Font options
 
 - **opentype_features**, **otf**
 
-  +-----------+----------------------------------------------------+
-  | `Values`  | Comma-separated list of the OpenType feature tags. |
-  +-----------+----------------------------------------------------+
-  | `Default` |                                                    |
-  +-----------+----------------------------------------------------+
+  +-----------+--------------------------------------------------------------------------------+
+  | `Values`  | Comma-separated list of the OpenType feature tags (no space after each comma). |
+  +-----------+--------------------------------------------------------------------------------+
+  | `Default` |                                                                                |
+  +-----------+--------------------------------------------------------------------------------+
 
   Font OpenType features. See `OpenType features tags <https://docs.microsoft.com/en-us/typography/opentype/spec/featuretags>`__.
 
@@ -876,11 +881,11 @@ Cell options
 
 - **padding**
 
-  +-----------+--------------------------------------------+
-  | `Values`  | 4 comma-separated floating-point numbers   |
-  +-----------+--------------------------------------------+
-  | `Default` | 0, 0, 0, 0                                 |
-  +-----------+--------------------------------------------+
+  +-----------+--------------------------------------------------------------------------+
+  | `Values`  | 4 comma-separated floating-point numbers (no space after each comma)     |
+  +-----------+--------------------------------------------------------------------------+
+  | `Default` | ``0,0,0,0``                                                              |
+  +-----------+--------------------------------------------------------------------------+
 
   Left, top, right, and bottom cell padding.
 
@@ -1012,12 +1017,13 @@ Rainbow
 .. image:: img/bbcode_in_richtextlabel_effect_rainbow.webp
 
 Rainbow gives the text a rainbow color that changes over time. Its tag format is
-``[rainbow freq=1.0 sat=0.8 val=0.8]{text}[/rainbow]``.
+``[rainbow freq=1.0 sat=0.8 val=0.8 speed=1.0]{text}[/rainbow]``.
 
-``freq`` is the number of full rainbow cycles per second, ``sat`` is the
-saturation of the rainbow, ``val`` is the value of the rainbow. A ``freq`` value
-of ``0`` will pause the animation, while negative ``freq`` will play the
-animation backwards.
+``freq`` determines how many letters the rainbow extends over before it repeats itself,
+``sat`` is the saturation of the rainbow, ``val`` is the value of the rainbow. ``speed``
+is the number of full rainbow cycles per second. A positive ``speed`` value will play
+the animation forwards, a value of ``0`` will pause the animation, and a negative
+``speed`` value will play the animation backwards.
 
 Font outlines are *not* affected by the rainbow effect (they keep their original color).
 Existing font colors are overridden by the rainbow effect. However, CanvasItem's
@@ -1049,7 +1055,7 @@ the Inspector by adding it to the **Markup > Custom Effects** array, or in code 
     tag will be left as-is.
 
 There is only one function that you need to extend: ``_process_custom_fx(char_fx)``.
-Optionally, you can also provide a custom BBCode identifier simply by adding a member
+Optionally, you can also provide a custom BBCode identifier by adding a member
 name ``bbcode``. The code will check the ``bbcode`` property automatically or will
 use the name of the file to determine what the BBCode tag should be.
 

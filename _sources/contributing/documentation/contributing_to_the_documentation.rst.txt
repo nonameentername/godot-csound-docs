@@ -91,7 +91,7 @@ and to log in to use it. Once logged in, you can propose change like so:
 3. Edit the text in the text editor.
 
 4. Click "Commit changes...", summarize the changes you made
-   and make sure to replace the placeholder "Update file.rst" by a short
+   and make sure to replace the placeholder "Update file.rst" by a short,
    but clear one-line description, as this is the commit title.
    Click the button **Propose changes**.
 

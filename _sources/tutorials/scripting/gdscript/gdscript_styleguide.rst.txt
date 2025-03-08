@@ -478,6 +478,27 @@ comments from disabled code.
     :kbd:`Ctrl + K`. This feature adds/removes a single ``#`` sign before any
     code on the selected lines.
 
+Prefer writing comments on their own line as opposed to inline comments
+(comments written on the same line as code). Inline comments are best used for
+short comments, typically a few words at most:
+
+**Good**:
+
+.. rst-class:: code-example-good
+
+::
+
+    # This is a long comment that would make the line below too long if written inline.
+    print("Example") # Short comment.
+
+**Bad**:
+
+.. rst-class:: code-example-bad
+
+::
+
+    print("Example") # This is a long comment that would make this line too long if written inline.
+
 Whitespace
 ~~~~~~~~~~
 
@@ -763,26 +784,38 @@ We suggest to organize GDScript code this way:
 
 ::
 
-    01. @tool
+    01. @tool, @icon, @static_unload
     02. class_name
     03. extends
-    04. ## docstring
+    04. ## doc comment
 
     05. signals
     06. enums
     07. constants
-    08. @export variables
-    09. public variables
-    10. private variables
+    08. static variables
+    09. @export variables
+    10. remaining regular variables
     11. @onready variables
 
-    12. optional built-in virtual _init method
-    13. optional built-in virtual _enter_tree() method
-    14. built-in virtual _ready method
-    15. remaining built-in virtual methods
-    16. public methods
-    17. private methods
-    18. subclasses
+    12. _static_init()
+    13. remaining static methods
+    14. overridden built-in virtual methods:
+        1. _init()
+        2. _enter_tree() 
+        3. _ready()
+        4. _process()
+        5. _physics_process()
+        6. remaining virtual methods
+    15. overridden custom methods
+    16. remaining methods
+    17. subclasses
+
+And put the class methods and variables in the following order depending on their access modifiers:
+
+::
+   
+    1. public
+    2. private
 
 We optimized the order to make it easy to read the code from top to bottom, to
 help developers reading the code for the first time understand how it works, and
@@ -803,9 +836,9 @@ Class declaration
 If the code is meant to run in the editor, place the ``@tool`` annotation on the
 first line of the script.
 
-Follow with the ``class_name`` if necessary. You can turn a GDScript file into a
-global type in your project using this feature. For more information, see
-:ref:`doc_gdscript`.
+Follow with the optional ``@icon`` then the ``class_name`` if necessary. You can turn a
+GDScript file into a global type in your project using ``class_name``. For more
+information, see :ref:`doc_gdscript_basics_class_name`.
 
 Then, add the ``extends`` keyword if the class extends a built-in type.
 
@@ -959,7 +992,7 @@ To declare the return type of a function, use ``-> <type>``:
 Inferred types
 ~~~~~~~~~~~~~~
 
-In most cases you can let the compiler infer the type, using ``:=``.
+In most cases, you can let the compiler infer the type using ``:=``.
 Prefer ``:=`` when the type is written on the same line as the assignment,
 otherwise prefer writing the type explicitly.
 
@@ -969,8 +1002,11 @@ otherwise prefer writing the type explicitly.
 
 ::
 
-    var health: int = 0 # The type can be int or float, and thus should be stated explicitly.
-    var direction := Vector3(1, 2, 3) # The type is clearly inferred as Vector3.
+    # The type can be int or float, and thus should be stated explicitly.
+    var health: int = 0
+
+    # The type is clearly inferred as Vector3.
+    var direction := Vector3(1, 2, 3)
 
 Include the type hint when the type is ambiguous, and
 omit the type hint when it's redundant.
@@ -981,8 +1017,11 @@ omit the type hint when it's redundant.
 
 ::
 
-    var health := 0 # Typed as int, but it could be that float was intended.
-    var direction: Vector3 = Vector3(1, 2, 3) # The type hint has redundant information.
+    # Typed as int, but it could be that float was intended.
+    var health := 0
+
+    # The type hint has redundant information.
+    var direction: Vector3 = Vector3(1, 2, 3)
 
     # What type is this? It's not immediately clear to the reader, so it's bad.
     var value := complex_function()

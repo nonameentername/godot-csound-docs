@@ -23,6 +23,7 @@ The following two scripts will be used as references throughout this page.
             my_property = value
 
     signal my_signal
+    signal my_signal_with_params(msg: String, n: int)
 
     func print_node_name(node: Node) -> void:
         print(node.get_name())
@@ -38,6 +39,9 @@ The following two scripts will be used as references throughout this page.
     func my_signal_handler():
         print("The signal handler was called!")
 
+    func my_signal_with_params_handler(msg: String, n: int):
+        print_n_times(msg, n)
+
  .. code-tab:: csharp
 
     using Godot;
@@ -47,6 +51,7 @@ The following two scripts will be used as references throughout this page.
         public string MyProperty { get; set; } = "my c# value";
 
         [Signal] public delegate void MySignalEventHandler();
+        [Signal] public delegate void MySignalWithParamsEventHandler(string msg, int n);
 
         public void PrintNodeName(Node node)
         {
@@ -72,6 +77,11 @@ The following two scripts will be used as references throughout this page.
         public void MySignalHandler()
         {
             GD.Print("The signal handler was called!");
+        }
+
+        public void MySignalWithParamsHandler(string msg, int n)
+        {
+            PrintNTimes(msg, n);
         }
     }
 
@@ -156,7 +166,8 @@ and :ref:`GodotObject.Set() <class_Object_method_set>`. The first argument is th
 
 Keep in mind that when setting a field value you should only use types the
 GDScript side knows about.
-Essentially, you want to work with built-in types as described in :ref:`doc_gdscript` or classes extending :ref:`class_Object`.
+Essentially, you want to work with built-in types as described in
+:ref:`doc_gdscript_builtin_types` or classes extending :ref:`class_Object`.
 
 Calling methods
 ---------------
@@ -202,7 +213,7 @@ to said method.
     // Outputs "Hello there!" twice, once per line.
     myGDScriptNode.Call("print_n_times", "Hello there!", 2);
 
-    string[] arr = new string[] { "a", "b", "c" };
+    string[] arr = ["a", "b", "c"];
     // Output: "a", "b", "c" (one per line).
     myGDScriptNode.Call("print_array", arr);
     // Output: "1", "2", "3"  (one per line).
@@ -225,6 +236,8 @@ defined in GDScript:
 
     my_csharp_node.MySignal.connect(my_signal_handler)
 
+    my_csharp_node.MySignalWithParams.connect(my_signal_with_params_handler)
+
 Connecting to GDScript signals from C#
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -234,6 +247,8 @@ because no C# static types exist for signals defined by GDScript:
 .. code-block:: csharp
 
     myGDScriptNode.Connect("my_signal", Callable.From(MySignalHandler));
+
+    myGDScriptNode.Connect("my_signal_with_params", Callable.From<string, int>(MySignalWithParamsHandler));
 
 Inheritance
 -----------

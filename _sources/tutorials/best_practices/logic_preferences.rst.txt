@@ -19,8 +19,10 @@ corresponding values, and that code can be slow! For most cases, this code
 has no impact on your game's performance, but in heavy use cases such as
 procedural generation, it can bring your game to a crawl.
 
-For these reasons, it is always a best practice to set the initial values
-of a node before adding it to the scene tree.
+For these reasons, it is usually best practice to set the initial values
+of a node before adding it to the scene tree. There are some exceptions where
+values *can't* be set before being added to the scene tree, like setting global
+position.
 
 Loading vs. preloading
 ----------------------
@@ -99,6 +101,23 @@ either? Let's see an example:
             ABuilding = GD.Load<PackedScene>("res://Office.tscn");
         }
     }
+
+  .. code-tab:: cpp C++
+
+    using namespace godot;
+
+    class MyBuildings : public Node {
+        GDCLASS(MyBuildings, Node)
+
+    public:
+        const Ref<PackedScene> building = ResourceLoader::get_singleton()->load("res://building.tscn");
+        Ref<PackedScene> a_building;
+
+        virtual void _ready() override {
+            // Can assign the value during initialization.
+            a_building = ResourceLoader::get_singleton()->load("res://office.tscn");
+        }
+    };
 
 Preloading allows the script to handle all the loading the moment one loads the
 script. Preloading is useful, but there are also times when one doesn't wish

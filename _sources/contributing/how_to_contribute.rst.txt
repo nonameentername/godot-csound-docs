@@ -34,7 +34,7 @@ Fundraising
 - **Publish Godot Games.**
   You heard right, simply publishing a game #MadeWithGodot can positively impact the well-being of this project.
   Your personal success elevates the engine to a viable alternative for other developers, growing the community further.
-  Additionally, it opens the doors for us to approach industry contacts about possible cooperations.
+  Additionally, it opens the door for us to approach industry contacts about possible collaborations.
 
 
 Technical contributions
@@ -108,4 +108,3 @@ Community support
   Chances are you looked for learning materials outside of what the documentation provides.
   Without content creators covering the game development process, there would not be this big of a community today.
   Therefore it seemed only right to mention them in a page about important contributions to the project.
-

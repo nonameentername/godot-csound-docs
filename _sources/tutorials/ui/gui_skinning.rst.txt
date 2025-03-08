@@ -131,12 +131,12 @@ is applied to them. Those methods accept the theme type as one of the arguments.
  .. code-tab:: gdscript
 
    var accent_color = get_theme_color("accent_color", "MyType")
-   label.add_color_override("font_color", accent_color)
+   label.add_theme_color_override("font_color", accent_color)
 
  .. code-tab:: csharp
 
    Color accentColor = GetThemeColor("accent_color", "MyType");
-   label.AddColorOverride("font_color", accentColor);
+   label.AddThemeColorOverride("font_color", accentColor);
 
 To give more customization opportunities types can also be linked together as
 type variations. This is another use-case for custom theme types. For example,
@@ -166,7 +166,7 @@ the Inspector dock, or scripts. This allows to make granular changes to a
 particular part of the UI, while not affecting anything else in the project,
 including this control's children.
 
-.. figure:: img/themecheck.png
+.. figure:: img/themecheck.webp
    :align: center
 
 Local overrides are less useful for the visual flair of your user interface,

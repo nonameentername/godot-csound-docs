@@ -20,7 +20,7 @@ This page will show you the 2D workspace and how you can get to know it.
 .. tip:: If you would like to get an introduction to 3D, see :ref:`doc_introduction_to_3d`.
 
 2D workspace
-~~~~~~~~~~~~
+------------
 
 You will use the 2D workspace to work with 2D scenes, design levels, or create user 
 interfaces.
@@ -47,7 +47,7 @@ applicable.
 
 
 Main toolbar
-------------
+~~~~~~~~~~~~
 
 Some buttons in the main toolbar are the same as those in the 3D workspace. A brief explanation
 is given with the shortcut if the mouse cursor is hovered over a button for one second. 
@@ -71,7 +71,7 @@ from left to right:
   :ref:`doc_introduction_to_2d_the_viewport` for more details.
 - **Rotate Mode** (:kbd:`E`): Enables rotation mode for the selected nodes. See 
   :ref:`doc_introduction_to_2d_the_viewport` for more details.
-- **Scale Mode** (:kbd:`R`): Enables scaling and displays scaling gizmos in both 
+- **Scale Mode** (:kbd:`S`): Enables scaling and displays scaling gizmos in both 
   axes for the selected node(s). See :ref:`doc_introduction_to_2d_the_viewport` for more details.
 - **Show list of selectable nodes at position clicked**: As the description suggests, 
   this provides a list of selectable nodes at the clicked position as a context menu, if 
@@ -91,7 +91,7 @@ from left to right:
   x and y coordinates. Dragging from a position to another one measures the distance in pixels.
   If you drag diagonally, it will draw a triangle and show the separate distances in terms 
   of x, y, and total distance to the target, including the angles to the axes in degrees.
-  The :kbd:`R` key also activates the ruler. If snapping is enabled, it also displays the 
+  The :kbd:`R` key activates the ruler. If snapping is enabled, it also displays the 
   measurements in terms of grid count:
 
 .. figure:: img/2d_ruler_with_snap.webp
@@ -165,10 +165,6 @@ Use the three-dot menu for this:
   - Make Bone2D Node(s) from Node(s): Converts selected node(s) into Bone2D. 
 
 .. seealso:: To learn more about Skeletons, see :ref:`doc_cutout_animation`.
-
-- **Project Camera Override**: Temporarily replaces the active camera in the level 
-  (e.g., the camera following the player) with the camera in the editor's viewport, allowing
-  you to move freely and inspect the level's different parts, while the game is running.
   
 - **View** menu: Provides options to control the viewport view. Since its options 
   depend heavily on the viewport, it is covered in the :ref:`doc_introduction_to_2d_the_viewport` 
@@ -182,7 +178,7 @@ provides buttons to add, modify, or remove points.
 
 
 Coordinate system
------------------
+~~~~~~~~~~~~~~~~~
 
 In the 2D editor, unlike 3D, there are only two axes: ``x`` and ``y``. Also, the viewing 
 angle is fixed.
@@ -206,7 +202,7 @@ Dragging in a negative direction flips the node horizontally or vertically.
 .. _doc_introduction_to_2d_the_viewport:
 
 2D Viewport
------------
+~~~~~~~~~~~
 
 The viewport will be the area you spend the most time if you plan to design levels or user 
 interfaces visually:
@@ -298,7 +294,7 @@ Viewport has a **View** menu which provides several options to change the look o
 
 
 Node2D and Control node
-~~~~~~~~~~~~~~~~~~~~~~~
+-----------------------
 
 :ref:`CanvasItem <class_CanvasItem>` is the base node for 2D. :ref:`Node2D <class_Node2D>` is the base node
 for 2D game objects, and :ref:`Control <class_Control>` is the base node 
@@ -307,10 +303,8 @@ for everything GUI. For 3D, Godot uses the :ref:`Node3D <class_Node3D>` node.
 3D in 2D
 --------
 
-It is possible to display 3D scenes in 2D screen. This is achieved by adding a 
-:ref:`SubViewport <class_SubViewport>` as a child.
-Then, you can drag a 3D scene as a child of the SubViewport:
+It is possible to display 3D scenes in 2D screen, You can see this in the demo `3D in 2D Viewport <https://godotengine.org/asset-library/asset/2804>`__.
 
 .. image:: img/3d_in_2d_demo_editor.webp
 
-.. seealso:: You can check the demo on: `3D in 2D Viewport demo <https://godotengine.org/asset-library/asset/2804>`__.
+

@@ -17,8 +17,8 @@ For compiling under Linux or other Unix variants, the following is
 required:
 
 - GCC 9+ or Clang 6+.
-- `Python 3.6+ <https://www.python.org/downloads/>`_.
-- `SCons 3.1.2+ <https://scons.org/pages/download.html>`_ build system.
+- `Python 3.8+ <https://www.python.org/downloads/>`_.
+- `SCons 4.0+ <https://scons.org/pages/download.html>`_ build system.
 - pkg-config (used to detect the development libraries listed below).
 - Development libraries:
 
@@ -39,7 +39,7 @@ required:
 .. _doc_compiling_for_linuxbsd_oneliners:
 
 Distro-specific one-liners
-^^^^^^^^^^^^^^^^^^^^^^^^^^
+~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 .. tabs::
 
@@ -109,20 +109,9 @@ Distro-specific one-liners
             sudo dnf install -y \
               scons \
               pkgconfig \
-              libX11-devel \
-              libXcursor-devel \
-              libXrandr-devel \
-              libXinerama-devel \
-              libXi-devel \
-              wayland-devel \
-              mesa-libGL-devel \
-              mesa-libGLU-devel \
-              alsa-lib-devel \
-              pulseaudio-libs-devel \
-              libudev-devel \
               gcc-c++ \
               libstdc++-static \
-              libatomic-static
+              wayland-devel
 
     .. tab:: FreeBSD
 
@@ -195,6 +184,28 @@ Distro-specific one-liners
               python \
               scons \
               llvm
+
+    .. tab:: openKylin
+
+        ::
+
+            sudo apt update
+            sudo apt install -y \
+              python3-pip \
+              build-essential \
+              pkg-config \
+              libx11-dev \
+              libxcursor-dev \
+              libxinerama-dev \
+              libgl1-mesa-dev \
+              libglu1-mesa-dev \
+              libasound2-dev \
+              libpulse-dev \
+              libudev-dev \
+              libxi-dev \
+              libxrandr-dev \
+              libwayland-dev
+            sudo pip install scons
 
     .. tab:: openSUSE
 
@@ -381,12 +392,6 @@ To cross-compile Godot for RISC-V devices, we need to setup the following items:
   If in doubt, `use this version <https://github.com/riscv-collab/riscv-gnu-toolchain/releases/tag/2021.12.22>`__,
   and download ``riscv64-glibc-ubuntu-18.04-nightly-2021.12.22-nightly.tar.gz``. Extract
   it somewhere and remember its path.
-- Clang. RISC-V GCC has
-  `bugs with its atomic operations <https://github.com/riscv-collab/riscv-gcc/issues/15>`__
-  which prevent it from compiling Godot correctly. Any version of Clang from 16.0.0 upwards
-  will suffice. Download it from the package manager of your distro, and make sure that
-  it *can* compile to RISC-V. You can verify by executing this command ``clang -print-targets``,
-  make sure you see ``riscv64`` on the list of targets.
 - `mold <https://github.com/rui314/mold/releases>`__. This fast linker,
   is the only one that correctly links the resulting binary. Download it, extract it,
   and make sure to add its ``bin`` folder to your PATH. Run
@@ -409,9 +414,26 @@ Go to the root of the source code, and execute the following build command:
 
 ::
 
+    PATH="$RISCV_TOOLCHAIN_PATH/bin:$PATH" \
     scons arch=rv64 use_llvm=yes linker=mold lto=none target=editor \
         ccflags="--sysroot=$RISCV_TOOLCHAIN_PATH/sysroot --gcc-toolchain=$RISCV_TOOLCHAIN_PATH -target riscv64-unknown-linux-gnu" \
         linkflags="--sysroot=$RISCV_TOOLCHAIN_PATH/sysroot --gcc-toolchain=$RISCV_TOOLCHAIN_PATH -target riscv64-unknown-linux-gnu"
+
+.. note::
+
+    RISC-V GCC has `bugs with its atomic operations <https://github.com/riscv-collab/riscv-gcc/issues/15>`__
+    which prevent it from compiling Godot correctly. That's why Clang is used instead. Make sure that
+    it *can* compile to RISC-V. You can verify by executing this command ``clang -print-targets``,
+    make sure you see ``riscv64`` on the list of targets.
+
+.. warning:: The code above includes adding ``$RISCV_TOOLCHAIN_PATH/bin`` to the PATH,
+             but only for the following ``scons`` command. Since riscv-gnu-toolchain uses
+             its own Clang located in the ``bin`` folder, adding ``$RISCV_TOOLCHAIN_PATH/bin``
+             to your user's PATH environment variable may block you from accessing another
+             version of Clang if one is installed. For this reason it's not recommended to make
+             adding the bin folder permanent. You can also omit the ``PATH="$RISCV_TOOLCHAIN_PATH/bin:$PATH"`` line
+             if you want to use scons with self-installed version of Clang, but it may have
+             compatibility issues with riscv-gnu-toolchain.
 
 The command is similar in nature, but with some key changes. ``ccflags`` and
 ``linkflags`` append additional flags to the build. ``--sysroot`` points to
@@ -543,7 +565,7 @@ listed in the :ref:`doc_compiling_for_linuxbsd_oneliners`:
         ::
 
             sudo dnf install -y \
-              embree3-devel \
+              embree-devel \
               enet-devel \
               glslang-devel \
               graphite2-devel \
@@ -575,7 +597,7 @@ running ``scons -h``, then looking for options starting with ``builtin_``.
 
 .. warning::
 
-    When using system libraries, the resulting library is **not** portable
+    When using system libraries, the resulting binary is **not** portable
     across Linux distributions anymore. Do not use this approach for creating
     binaries you intend to distribute to others, unless you're creating a
     package for a Linux distribution.

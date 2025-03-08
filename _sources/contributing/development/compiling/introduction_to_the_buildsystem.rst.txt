@@ -69,9 +69,10 @@ To list the available target platforms, use ``scons platform=list``::
     The following platforms are available:
 
         android
-        javascript
+        ios
         linuxbsd
-        server
+        macos
+        web
         windows
 
     Please run SCons again and select a valid platform: platform=<string>
@@ -124,20 +125,24 @@ build targets, and which will be explained below.
 Target
 ------
 
-Target controls if the editor is contained and debug flags are used.
-All builds are optimized. Each mode means:
+The ``target`` option controls if the editor is compiled and debug flags are used.
+Optimization levels (``optimize``) and whether each build contains debug symbols
+(``debug_symbols``) is controlled separately from the target. Each mode means:
 
--  ``target=editor``: Build with editor, optimized, with debugging code (defines: ``TOOLS_ENABLED``, ``DEBUG_ENABLED``, ``-O2``/``/O2``)
--  ``target=template_debug``: Build with C++ debugging symbols (defines: ``DEBUG_ENABLED``, ``-O2``/``/O2``)
--  ``target=template_release``: Build without symbols (defines: ``-O3``/``/O2``)
+-  ``target=editor``: Build an editor binary (defines ``TOOLS_ENABLED`` and ``DEBUG_ENABLED``)
+-  ``target=template_debug``: Build a debug export template (defines ``DEBUG_ENABLED``)
+-  ``target=template_release``: Build a release export template
 
 The editor is enabled by default in all PC targets (Linux, Windows, macOS),
 disabled for everything else. Disabling the editor produces a binary that can
 run projects but does not include the editor or the Project Manager.
 
+The list of :ref:`command line arguments <doc_command_line_tutorial>`
+available varies depending on the build type.
+
 ::
 
-    scons platform=<platform> target=editor/template_debug/template_release
+    scons platform=<platform> target=editor|template_debug|template_release
 
 .. _doc_introduction_to_the_buildsystem_development_and_production_aliases:
 
@@ -323,15 +328,14 @@ The default ``custom.py`` file can be created at the root of the Godot Engine
 source to initialize any SCons build options passed via the command line:
 
 .. code-block:: python
-
-    # custom.py
+    :caption: custom.py
 
     optimize = "size"
     module_mono_enabled = "yes"
     use_llvm = "yes"
     extra_suffix = "game_title"
 
-You can also disable some of the builtin modules before compiling, saving some
+You can also disable some of the built-in modules before compiling, saving some
 time it takes to build the engine. See :ref:`doc_optimizing_for_size` page for more details.
 
 .. seealso::
@@ -354,8 +358,7 @@ line option, both overriding the default build configuration:
 It's also possible to override the options conditionally:
 
 .. code-block:: python
-
-    # custom.py
+    :caption: custom.py
 
     import version
 
@@ -405,7 +408,7 @@ To perform an SCU build, use the ``scu_build=yes`` SCons option.
           regular build prior to submitting the PR. This is because SCU builds
           by nature include headers from earlier ``.cpp`` files in the
           translation unit, therefore won't catch all the includes you will
-          need in a regular build. The CI will catch these errors but it will
+          need in a regular build. The CI will catch these errors, but it will
           usually be faster to catch them on a local build on your machine.
 
 Export templates

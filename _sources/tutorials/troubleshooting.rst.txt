@@ -25,11 +25,11 @@ There are several ways to improve performance and battery life:
   which can be up to 4 times faster.
 - Open the Editor Settings and increase the value of **Low Processor Mode Sleep (µsec)**
   to ``33000`` (30 FPS). This value determines the amount of *microseconds*
-  between frames to render. Higher values will make the editor feel less reactive
+  between frames to render. Higher values will make the editor feel less reactive,
   but will help decrease CPU and GPU usage significantly.
 - If you have a node that causes the editor to redraw continuously (such as
   particles), hide it and show it using a script in the ``_ready()`` method.
-  This way, it will be hidden in the editor but will still be visible in the
+  This way, it will be hidden in the editor, but will still be visible in the
   running project.
 
 The editor stutters and flickers on my variable refresh rate monitor (G-Sync/FreeSync)
@@ -49,7 +49,7 @@ There are several workarounds for this:
   alleviate this, you can increase **Low Processor Mode Sleep (µsec)** to
   ``33000`` (30 FPS) in the Editor Settings. This value determines the amount of
   *microseconds* between frames to render. Higher values will make the editor
-  feel less reactive but will help decrease CPU and GPU usage significantly.
+  feel less reactive, but will help decrease CPU and GPU usage significantly.
 - Alternatively, disable variable refresh rate on your monitor or in the graphics driver.
 - VRR flicker can be reduced on some displays using the **VRR Control** or
   **Fine Tune Dark Areas** options in your monitor's OSD. These options may
@@ -60,8 +60,8 @@ There are several workarounds for this:
 The editor or project takes a very long time to start
 -----------------------------------------------------
 
-When using one of the Vulkan-based renderers (Forward+ or Forward Mobile),
-the first startup is expected to be relatively long. This is because shaders
+When using one of the Vulkan-based renderers (Forward+ or Mobile), the first
+startup is expected to be relatively long. This is because shaders
 need to be compiled before they can be cached. Shaders also need to be cached
 again after updating Godot, after updating graphics drivers or after switching
 graphics cards.
@@ -211,6 +211,9 @@ tonemapping (as opposed to :abbr:`DTM (Dynamic Tone Mapping)`), then
 It is also strongly recommended to use Windows 11 instead of Windows 10 when using HDR.
 The end result will still likely be inferior to disabling HDR on the display, though.
 
+.. UPDATE: Planned feature. When HDR output is implemented, remove or update
+.. this paragraph.
+
 Support for HDR *output* is planned in a future release.
 
 The editor/project freezes or displays glitched visuals after resuming the PC from suspend
@@ -220,7 +223,7 @@ This is a known issue on Linux with NVIDIA graphics when using the proprietary
 driver. There is no definitive fix yet, as suspend on Linux + NVIDIA is often
 buggy when OpenGL or Vulkan is involved. The Compatibility rendering method
 (which uses OpenGL) is generally less prone to suspend-related issues compared
-to the Forward+ and Forward Mobile rendering methods (which use Vulkan).
+to the Forward+ and Mobile renderers (which use Vulkan).
 
 The NVIDIA driver offers an *experimental*
 `option to preserve video memory after suspend <https://wiki.archlinux.org/title/NVIDIA/Tips_and_tricks#Preserve_video_memory_after_suspend>`__
@@ -248,3 +251,12 @@ On Windows, this can also be due to :ref:`case sensitivity
 in your script with a different case than on the filesystem, loading will fail
 once you export the project. This is because the virtual PCK filesystem is
 case-sensitive, while Windows's filesystem is case-insensitive by default.
+
+The project crashes frequently or instantly after opening it from the project manager
+-------------------------------------------------------------------------------------
+
+This could be caused by a number of things such as an editor plugin, GDExtension
+addon, or something else. In this scenario it's recommended that you open the
+project in recovery mode, and attempt to find and fix whatever is causing the
+crashes. See the :ref:`Project Manager page <doc_project_manager>` for more
+information.
